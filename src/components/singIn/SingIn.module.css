@@ -1,0 +1,51 @@
+.formSingInContainer{
+    max-width: 300px;
+    font-family: 'Open Sans', sans-serif;;
+    background: white;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.formSingInContainer form{
+    display: flex;
+    flex-direction: column;
+}
+.formSingTitle{
+    text-align: center;
+    margin: 0;
+    margin-bottom: 15px;
+}
+
+.formSingInContainer input,.formSingInContainer fieldset{
+    padding: 8px;
+    margin: 6px;
+    border: 1px solid #bbb8b8;
+    border-radius: 3px;
+}
+.formSingInContainer fieldset input{
+    border: none;
+    padding: 0;
+    margin: 0;
+
+}
+.link{
+    text-align: center;
+    text-decoration: none;
+}
+.link p{
+    margin: 0;
+}
+.formSingInContainer footer{
+    margin-top: 30px;
+    color: #a8a6a6;
+    font-size: 13px;
+}
+.formSingInContainer button{
+    margin:15px 0;
+    color: white;
+    text-align: center;
+    background: #0F238C;
+    border: none;
+    padding:7px 30px;
+}
