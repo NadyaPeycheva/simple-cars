@@ -1,4 +1,4 @@
-import Background from "../../pages/Background";
+import Background from "../../assets/Background";
 
 import { useRef } from "react";
 import { Link } from "react-router-dom";
