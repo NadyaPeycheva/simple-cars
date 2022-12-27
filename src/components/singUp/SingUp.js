@@ -19,7 +19,7 @@ const initialStateErrors = {
 };
 
 const SingUp = () => {
-const history=useHistory();
+  const history = useHistory();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -100,8 +100,13 @@ const history=useHistory();
           return { ...state, username: true };
         });
         return;
-      }else if(response === 200){
-history.push('/singIn')
+      } else if (response === 200) {
+        setFirstName("");
+        setLastName("");
+        setUsername("");
+        setPassword("");
+        setHaveErrors(initialStateErrors);
+        history.push("/singIn");
       }
     });
   };

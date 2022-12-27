@@ -12,7 +12,6 @@ const Background = (props) => {
             flexDirection: "column",
             alignItems: "center",
           background: "white",
-        //   padding:10
         }}
       >
         {props.children}
