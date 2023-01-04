@@ -82,6 +82,8 @@ const SingUp = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+
+    
     fetch("http://161.35.202.170:8080/users/register", {
       method: "POST",
       body: JSON.stringify({

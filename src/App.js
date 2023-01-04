@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import SingIn from "./components/singIn/SingIn";
 import SingUp from "./components/singUp/SingUp";
 import Catalog from "./pages/Catalog";
@@ -6,6 +6,9 @@ import Catalog from "./pages/Catalog";
 function App() {
   return (
     <main>
+      <Route path="/" exact>
+        <Redirect to='/catalog'/>
+      </Route>
       <Route path="/catalog">
         <Catalog/>
       </Route>

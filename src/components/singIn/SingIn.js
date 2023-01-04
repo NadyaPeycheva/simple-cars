@@ -3,54 +3,68 @@ import Background from "../../assets/Background";
 import { Link, useHistory } from "react-router-dom";
 
 import classes from "./SingIn.module.css";
-import { Box, Button, CssBaseline, Grid, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import {
+  Box,
+  Button,
+  CssBaseline,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { useState, useContext } from "react";
+import UserContext from "../../store/context/user-contex";
+
 const initialStateErrors = {
   username: false,
   password: false,
 };
 
 const SingIn = () => {
-const history=useHistory();
+  const history = useHistory();
 
-const [username,setUsername]=useState('');
-const [password,setPassword]=useState('');
+  const { logIn } = useContext(UserContext);
 
-const [haveErrors, setHaveErrors] = useState(initialStateErrors);
+  const [disabledButton,setDisabledButton]=useState(false)
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
+  const [haveErrors, setHaveErrors] = useState(initialStateErrors);
 
-const usernameHandler = (event) => {
-  setUsername(event.target.value);
-  if (event.target.value.length === 0) {
-    setHaveErrors((state) => {
-      return { ...state, username: true };
-    });
-  } else {
-    setHaveErrors((state) => {
-      return { ...state, username: false };
-    });
-  }
-};
+  const usernameHandler = (event) => {
+    setUsername(event.target.value);
+    if (event.target.value.length === 0) {
+      setHaveErrors((state) => {
+        return { ...state, username: true };
+      });
+      setDisabledButton(true);
+    } else {
+      setHaveErrors((state) => {
+        return { ...state, username: false };
+      });
+      setDisabledButton(false);
+    }
+  };
 
-const passwordHandler = (event) => {
-  setPassword(event.target.value);
-  if (event.target.value.length === 0) {
-    setHaveErrors((state) => {
-      return { ...state, password: true };
-    });
-  } else {
-    setHaveErrors((state) => {
-      return { ...state, password: false };
-    });
-  }
-};
+  const passwordHandler = (event) => {
+    setPassword(event.target.value);
+    if (event.target.value.length === 0) {
+      setHaveErrors((state) => {
+        return { ...state, password: true };
+      });
+      setDisabledButton(true);
+    } else {
+      setHaveErrors((state) => {
+        return { ...state, password: false };
+      });
+      setDisabledButton(false);
+    }
+  };
 
   const submitHandler = (event) => {
     event.preventDefault();
-
     fetch("http://161.35.202.170:8080/users/login", {
       method: "POST",
-      body: JSON.stringify({username,password}),
+      body: JSON.stringify({ username, password }),
       headers: { "Content-Type": "application/json" },
     }).then((res) => {
       const response = res.status;
@@ -61,14 +75,13 @@ const passwordHandler = (event) => {
         return;
       } else if (response === 200) {
         res.json().then((data) => {
-        console.log(data);
+          logIn(data);
         });
         setUsername("");
         setPassword("");
         setHaveErrors(initialStateErrors);
         history.push("/catalog");
       }
-      
     });
   };
 
@@ -92,7 +105,7 @@ const passwordHandler = (event) => {
           sx={{ mt: 3 }}
         >
           <Grid container spacing={2}>
-            <Grid item xs={12} >
+            <Grid item xs={12}>
               <TextField
                 required
                 fullWidth
@@ -121,6 +134,7 @@ const passwordHandler = (event) => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2, background: "#0F238C" }}
+            disabled={disabledButton}
           >
             Sing In
           </Button>
@@ -128,8 +142,8 @@ const passwordHandler = (event) => {
             <Grid item>
               <Link to="/singUp" variant="body2" className={classes.link}>
                 <div className={classes.textContent}>
-                <p>Don't have an acount ?</p>
-                <p>Continue to creating</p>
+                  <p>Don't have an acount ?</p>
+                  <p>Continue to creating</p>
                 </div>
               </Link>
             </Grid>
