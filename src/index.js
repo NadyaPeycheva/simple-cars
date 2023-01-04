@@ -8,14 +8,17 @@ import { BrowserRouter } from 'react-router-dom';
 import { UserContextProvider } from './store/context/user-contex';
 import { Provider } from 'react-redux';
 import store from './store/index/index';
+import { CarContextProvider } from './store/context/car-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <UserContextProvider>
+      <CarContextProvider>
   <BrowserRouter>
     <App />
     </BrowserRouter>
+    </CarContextProvider>
     </UserContextProvider>
     </Provider>
 );

@@ -12,9 +12,15 @@ import RowInput from "./RowInput";
 import classes from "./TableOfCatalog.module.css";
 import { TableFooter, TablePagination } from '@mui/material';
 import { useSelector } from "react-redux";
+import { useContext } from 'react';
+import CarContext from '../../store/context/car-context';
+import RowTable from './TableRow';
 
 const TableOfCatalog = () => {
-    const isVisible=useSelector((state)=>state.addCar.visibleRow)
+    const isVisible=useSelector((state)=>state.addCar.visibleRow);
+
+    const {cars}=useContext(CarContext);
+
   return (
  
     <TableContainer component={Paper}>
@@ -37,8 +43,11 @@ const TableOfCatalog = () => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {isVisible&&<RowInput/>}
+            {cars&&cars.map((car)=>((<RowTable key={car.id} car={car}/>)))}
+            {cars.length===0&&<p>No reqorsd to deploy</p>}
+            {isVisible&&<RowInput/>}
             </TableBody>
+            
             {/* <TableFooter>
                 <TableRow>
                     <TablePagination/>

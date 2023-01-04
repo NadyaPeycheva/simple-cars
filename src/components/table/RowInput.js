@@ -4,13 +4,12 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-// import CreateIcon from "@mui/icons-material/Create";
-// import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Close } from "@mui/icons-material";
 import CheckIcon from "@mui/icons-material/Check";
 import { useRef } from "react";
 import { useContext } from "react";
 import UserContext from "../../store/context/user-contex";
+import CarContext from "../../store/context/car-context";
 
 const engineTypes = ["DIESEL", "PETROL", "OIL"];
 const conditions = ["USED", "NEW"];
@@ -19,6 +18,7 @@ const grearBox = ["AUTOMATIC", "MANUAL"];
 
 const RowInput = () => {
 const {user}=useContext(UserContext);
+const {addCar}=useContext(CarContext);
 
   let makeRef = useRef();
   let modelRef = useRef();
@@ -46,40 +46,33 @@ const {user}=useContext(UserContext);
     const city = cityRef.current.value;
     const mileage =Number(mileageRef.current.value) ;
     const extras = extrasRef.current.value;
-    
-    fetch('http://161.35.202.170:8080/cars',{
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization':`Bearer ${user.token}`,
-      },
-      body:JSON.stringify({
+
+    const car={
+      "id": user.id,
+      "make": make,
+      "model": model,
+      "year": year,
+      "engineType": engineType,
+      "gearBox": gearBox,
+      "condition": condition,
+      "horsePower": horsePower,
+      "color": color,
+      "price": price,
+      "city": city,
+      "mileage": mileage,
+      "user": {
         "id": user.id,
-        "make": make,
-        "model": model,
-        "year": year,
-        "engineType": engineType,
-        "gearBox": gearBox,
-        "condition": condition,
-        "horsePower": horsePower,
-        "color": color,
-        "price": price,
-        "city": city,
-        "mileage": mileage,
-        "user": {
-          "id": user.id,
-          "username": user.username,
-          "password": user.password,
-          "firstName":user.firstName,
-          "lastName": user.lastName,
-        },
-        "extras": extras
-      })
-    }).then((res)=>{
-      if(res.status===200){
-        cleatInputData();
-      }
-    })
+        "username": user.username,
+        "password": user.password,
+        "firstName":user.firstName,
+        "lastName": user.lastName,
+      },
+      "extras": extras
+    };
+
+addCar(car,user.token);
+cleatInputData();
+   
   };
 
   const cleatInputData = () => {
