@@ -7,10 +7,16 @@ import {
 import classes from './SearchField.module.css';
 import { useContext } from "react";
 import UserContext from "../../store/context/user-contex";
+import { useDispatch } from "react-redux";
+import { addCarRowActions } from "../../store/index/addCarRow-slice";
 
 const SearchField = () => {
+  const dispatch = useDispatch();
 const {user}=useContext(UserContext);
-console.log(user);
+
+const clickHandler=()=>{
+  dispatch(addCarRowActions.toggle());
+}
 
   return (
     <div className={classes.searchContainer}>
@@ -29,7 +35,7 @@ console.log(user);
             </InputAdornment>
           }
       />
-      {user&&<AddBox className={classes.icon}/>}
+      {user&&<AddBox onClick={clickHandler} className={classes.icon}/>}
       
       </div>
       

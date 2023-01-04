@@ -75,7 +75,8 @@ const SingIn = () => {
         return;
       } else if (response === 200) {
         res.json().then((data) => {
-          logIn(data);
+          
+          logIn(data.jwtToken,data.user)
         });
         setUsername("");
         setPassword("");

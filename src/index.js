@@ -6,14 +6,18 @@ import reportWebVitals from './reportWebVitals';
 
 import { BrowserRouter } from 'react-router-dom';
 import { UserContextProvider } from './store/context/user-contex';
+import { Provider } from 'react-redux';
+import store from './store/index/index';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <Provider store={store}>
     <UserContextProvider>
   <BrowserRouter>
     <App />
     </BrowserRouter>
     </UserContextProvider>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -11,13 +11,10 @@ import RowInput from "./RowInput";
 
 import classes from "./TableOfCatalog.module.css";
 import { TableFooter, TablePagination } from '@mui/material';
-
-
-
+import { useSelector } from "react-redux";
 
 const TableOfCatalog = () => {
- 
-
+    const isVisible=useSelector((state)=>state.addCar.visibleRow)
   return (
  
     <TableContainer component={Paper}>
@@ -40,13 +37,13 @@ const TableOfCatalog = () => {
                 </TableRow>
             </TableHead>
             <TableBody>
-                <RowInput/>
+                {isVisible&&<RowInput/>}
             </TableBody>
-            <TableFooter>
+            {/* <TableFooter>
                 <TableRow>
                     <TablePagination/>
                 </TableRow>
-            </TableFooter>
+            </TableFooter> */}
         </Table>
     </TableContainer>
   );

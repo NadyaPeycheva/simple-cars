@@ -9,15 +9,16 @@ export const UserContextProvider=(props)=>{
     const [hasUser,setHasUser]=useState('');
 
     useEffect(()=>{
-        const browserUser=localStorage.getItem('currentUser');
+        const browserUser=JSON.parse(localStorage.getItem('user'));
         if(browserUser){
             setHasUser(browserUser)
         }
     },[]);
 
-    const logIn=(data)=>{
-        setHasUser(data);
-        localStorage.setItem('currentUser',data);
+    const logIn=(token,userData)=>{
+        const user={token,id:userData.id,firstName:userData.firstName,lastName:userData.lastName,username:userData.username,password:userData.password}
+        setHasUser(user);
+        localStorage.setItem('user',JSON.stringify(user));
     }
 
     const contextValue={
@@ -30,3 +31,6 @@ export const UserContextProvider=(props)=>{
     )
 }
 export default UserContext;
+
+
+
