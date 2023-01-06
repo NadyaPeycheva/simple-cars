@@ -1,0 +1,47 @@
+.imageContainer{
+    max-width: 100%;
+    display: inline-block;
+}
+.imageContainer img{
+    max-width: 100%;
+}
+.logoContent{
+    max-width: 100%;
+    position: relative;
+    bottom: 69px;
+}
+.logoContainer{
+    max-width: 110px;
+    max-height: 94px;
+    display: inline-block;
+}
+.logoText{
+    margin: 0;
+    background: black;
+    color: white;
+    padding: 9px 14px;
+    border-radius: 5px;
+    
+}
+.leftSpan{
+    height: 25px;
+    width: 21px;
+    background-color: white;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    left: -11px;
+    bottom: -41px;
+}
+.rightSpan{
+    height: 25px;
+    width: 21px;
+    background-color: white;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    right: -98px;
+    bottom: 29px;
+}

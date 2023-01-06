@@ -1,24 +1,17 @@
-import {
-  MenuItem,
-  TableCell,
-  TableRow,
-  TextField,
-} from "@mui/material";
+import { MenuItem, TableCell, TableRow, TextField } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import CheckIcon from "@mui/icons-material/Check";
 import { useRef } from "react";
 import { useContext } from "react";
 import UserContext from "../../store/context/user-contex";
-import CarContext from "../../store/context/car-context";
 
 const engineTypes = ["DIESEL", "PETROL", "OIL"];
 const conditions = ["USED", "NEW"];
 const cities = ["Sofia", "Gotce Delchev", "Varna"];
-const grearBox = ["AUTOMATIC", "MANUAL"];
+const gearBox = ["AUTOMATIC", "MANUAL"];
 
-const RowInput = () => {
-const {user}=useContext(UserContext);
-const {addCar}=useContext(CarContext);
+const RowInput = ({ request, defaultValues,carId,changeModel }) => {
+  const { user } = useContext(UserContext);
 
   let makeRef = useRef();
   let modelRef = useRef();
@@ -40,15 +33,15 @@ const {addCar}=useContext(CarContext);
     const engineType = engineTypeRef.current.value;
     const gearBox = gearBoxRef.current.value;
     const condition = conditionRef.current.value;
-    const horsePower =Number(horsePowerRef.current.value) ;
+    const horsePower = Number(horsePowerRef.current.value);
     const color = colorRef.current.value;
-    const price =Number(priceRef.current.value) ;
+    const price = Number(priceRef.current.value);
     const city = cityRef.current.value;
-    const mileage =Number(mileageRef.current.value) ;
+    const mileage = Number(mileageRef.current.value);
     const extras = extrasRef.current.value;
 
-    const car={
-      "id": user.id,
+    const car = {
+      "id": carId||user.id,
       "make": make,
       "model": model,
       "year": year,
@@ -64,15 +57,15 @@ const {addCar}=useContext(CarContext);
         "id": user.id,
         "username": user.username,
         "password": user.password,
-        "firstName":user.firstName,
+        "firstName": user.firstName,
         "lastName": user.lastName,
       },
       "extras": extras
     };
+    const userData = { token: user.token, id: user.id };
 
-addCar(car,user.token);
-cleatInputData();
-   
+    request(car, userData);
+    cleatInputData();
   };
 
   const cleatInputData = () => {
@@ -88,6 +81,7 @@ cleatInputData();
     cityRef.current.value = "";
     mileageRef.current.value = "";
     extrasRef.current.value = "";
+    changeModel();
   };
 
   return (
@@ -97,16 +91,36 @@ cleatInputData();
         <Close onClick={cleatInputData} sx={{ fontSize: "19px" }} />
       </TableCell>
       <TableCell>
-        <TextField label="Make" variant="standard" inputRef={makeRef} />
+        <TextField
+          label="Make"
+          defaultValue={defaultValues.make}
+          variant="standard"
+          inputRef={makeRef}
+        />
       </TableCell>
       <TableCell>
-        <TextField label="Model" variant="standard" inputRef={modelRef} />
+        <TextField
+          label="Model"
+          defaultValue={defaultValues.model}
+          variant="standard"
+          inputRef={modelRef}
+        />
       </TableCell>
       <TableCell>
-        <TextField label="Year" variant="standard" inputRef={yearRef} />
+        <TextField
+          label="Year"
+          defaultValue={defaultValues.year}
+          variant="standard"
+          inputRef={yearRef}
+        />
       </TableCell>
       <TableCell>
-        <TextField select variant="standard" inputRef={engineTypeRef}>
+        <TextField
+          select
+          variant="standard"
+          defaultValue={defaultValues.engineType}
+          inputRef={engineTypeRef}
+        >
           {engineTypes.map((option) => (
             <MenuItem key={option} value={option}>
               {option}
@@ -115,8 +129,13 @@ cleatInputData();
         </TextField>
       </TableCell>
       <TableCell>
-        <TextField select variant="standard" inputRef={gearBoxRef}>
-          {grearBox.map((option) => (
+        <TextField
+          select
+          variant="standard"
+          defaultValue={defaultValues.gearBox}
+          inputRef={gearBoxRef}
+        >
+          {gearBox.map((option) => (
             <MenuItem key={option} value={option}>
               {option}
             </MenuItem>
@@ -124,7 +143,12 @@ cleatInputData();
         </TextField>
       </TableCell>
       <TableCell>
-        <TextField select variant="standard" inputRef={conditionRef}>
+        <TextField
+          select
+          defaultValue={defaultValues.condition}
+          variant="standard"
+          inputRef={conditionRef}
+        >
           {conditions.map((option) => (
             <MenuItem key={option} value={option}>
               {option}
@@ -134,19 +158,35 @@ cleatInputData();
       </TableCell>
       <TableCell>
         <TextField
+          defaultValue={defaultValues.horsePower}
           label="Horse Power"
           variant="standard"
           inputRef={horsePowerRef}
         />
       </TableCell>
       <TableCell>
-        <TextField label="Color" variant="standard" inputRef={colorRef} />
+        <TextField
+          label="Color"
+          defaultValue={defaultValues.color}
+          variant="standard"
+          inputRef={colorRef}
+        />
       </TableCell>
       <TableCell>
-        <TextField label="Price $" variant="standard" inputRef={priceRef} />
+        <TextField
+          label="Price $"
+          variant="standard"
+          defaultValue={defaultValues.price}
+          inputRef={priceRef}
+        />
       </TableCell>
       <TableCell>
-        <TextField select variant="standard" inputRef={cityRef}>
+        <TextField
+          select
+          variant="standard"
+          defaultValue={defaultValues.city}
+          inputRef={cityRef}
+        >
           {cities.map((option) => (
             <MenuItem key={option} value={option}>
               {option}
@@ -155,10 +195,20 @@ cleatInputData();
         </TextField>
       </TableCell>
       <TableCell>
-        <TextField label="Mileage" variant="standard" inputRef={mileageRef} />
+        <TextField
+          label="Mileage"
+          defaultValue={defaultValues.mileage}
+          variant="standard"
+          inputRef={mileageRef}
+        />
       </TableCell>
       <TableCell>
-        <TextField label="Extras" variant="standard" inputRef={extrasRef} />
+        <TextField
+          label="Extras"
+          variant="standard"
+          defaultValue={defaultValues.extras}
+          inputRef={extrasRef}
+        />
       </TableCell>
     </TableRow>
   );

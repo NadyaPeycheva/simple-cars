@@ -1,3 +1,4 @@
+
 import Background from "../../assets/Background";
 
 import { Link, useHistory } from "react-router-dom";
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 import { useState, useContext } from "react";
 import UserContext from "../../store/context/user-contex";
+import Logo from "../../assets/Logo";
 
 const initialStateErrors = {
   username: false,
@@ -152,6 +154,7 @@ const SingIn = () => {
         </Box>
       </Box>
       <footer className={classes.footer}>
+        <Logo/>
         <p>Copyright &copy; Simple Cars2012</p>
       </footer>
     </Background>

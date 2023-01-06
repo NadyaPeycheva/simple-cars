@@ -15,19 +15,22 @@ import { useSelector } from "react-redux";
 import { useContext } from 'react';
 import CarContext from '../../store/context/car-context';
 import RowTable from './TableRow';
+import UserContext from '../../store/context/user-contex';
 
 const TableOfCatalog = () => {
     const isVisible=useSelector((state)=>state.addCar.visibleRow);
 
     const {cars}=useContext(CarContext);
+    const {addCar}=useContext(CarContext);
+    const {user}=useContext(UserContext);
 
   return (
  
     <TableContainer component={Paper}>
-        <Table sx={{minWidth:650}} aria-label="simple table">
+        <Table sx={{minWidth:650 }} aria-label="simple table">
             <TableHead>
                 <TableRow className={classes.tableRow}>
-                    <TableCell>Action</TableCell>
+                    {user&&<TableCell>Action</TableCell>}
                     <TableCell>Make</TableCell>
                     <TableCell>Model</TableCell>
                     <TableCell>Year</TableCell>
@@ -42,10 +45,13 @@ const TableOfCatalog = () => {
                     <TableCell>Extras</TableCell>
                 </TableRow>
             </TableHead>
+
             <TableBody>
+            {cars.length===0&&<TableRow >
+                <TableCell sx={{textAlign:'center'}} colSpan='13'>No reqorsd to deploy</TableCell></TableRow>}
             {cars&&cars.map((car)=>((<RowTable key={car.id} car={car}/>)))}
-            {cars.length===0&&<p>No reqorsd to deploy</p>}
-            {isVisible&&<RowInput/>}
+            
+            {isVisible&&<RowInput request={addCar} defaultValues={{make:'',model:'',year:'',engyneType:'',gearBox:'',condition:'',horsePower:'',color:'',price:'',city:"",mileage:"",extras:""}}/>}
             </TableBody>
             
             {/* <TableFooter>

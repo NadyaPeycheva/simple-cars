@@ -2,9 +2,9 @@
     background: #3F51B5;
     display: flex;
     justify-content: space-between;
+    padding: 20px 6px 0px 6px;;
 }
 .header button{
     border: none;
     background: none;
-    margin: 25px;
 }

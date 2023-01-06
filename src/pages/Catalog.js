@@ -7,6 +7,7 @@ import classes from "./Catalog.module.css";
 import SearchField from "../components/search/SearchField";
 import { useContext } from "react";
 import UserContext from "../store/context/user-contex";
+import DirectionsCarFilledIcon from '@mui/icons-material/DirectionsCarFilled';
 
 const Catalog = () => {
 const {user} = useContext(UserContext);
@@ -19,7 +20,9 @@ const {user} = useContext(UserContext);
   return (
     <Fragment>
       <header className={classes.header}>
-        <p>car</p>
+        <div>
+        <DirectionsCarFilledIcon fontSize="large"/>
+        </div>
         {!user&&<button onClick={clickHandler}>LOGIN</button>}
       </header>
       <SearchField/>
