@@ -8,6 +8,11 @@ const UserContext=createContext({
 export const UserContextProvider=(props)=>{
     const [hasUser,setHasUser]=useState('');
 
+    setTimeout(() => {
+        localStorage.clear();
+        setHasUser('')
+    }, 600000);
+
     useEffect(()=>{
         const browserUser=JSON.parse(localStorage.getItem('user'));
         if(browserUser){
