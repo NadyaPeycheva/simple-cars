@@ -4,11 +4,23 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { BrowserRouter } from 'react-router-dom';
+import { UserContextProvider } from './store/context/user-contex';
+import { Provider } from 'react-redux';
+import store from './store/index/index';
+import { CarContextProvider } from './store/context/car-context';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
+    <UserContextProvider>
+      <CarContextProvider>
+  <BrowserRouter>
     <App />
-  </React.StrictMode>
+    </BrowserRouter>
+    </CarContextProvider>
+    </UserContextProvider>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

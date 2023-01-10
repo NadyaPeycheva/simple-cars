@@ -1,0 +1,20 @@
+.link{
+    text-decoration: none;
+}
+.textContent{
+    text-align: center;
+}
+.textContent p{
+    margin:0;
+}
+.footer{
+    margin-top: 30px;
+    color: #a8a6a6;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+

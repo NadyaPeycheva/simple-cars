@@ -1,24 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { Redirect, Route } from "react-router-dom";
+import SingIn from "./components/singIn/SingIn";
+import SingUp from "./components/singUp/SingUp";
+import Catalog from "./pages/Catalog";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main>
+     
+      <Route path="/" exact>
+        <Redirect to='/catalog'/>
+      </Route>
+      <Route path="/catalog">
+        <Catalog/>
+      </Route>
+   <Route path='/singUp'>
+    <SingUp/>
+   </Route>
+   <Route path='/singIn'>
+    <SingIn/>
+   </Route>
+   </main>
   );
 }
 
