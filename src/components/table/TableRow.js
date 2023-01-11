@@ -57,6 +57,7 @@ const RowTable = (props) => {
             />
           </TableCell>
         )}
+        {user.id!==carUserId&&<TableCell></TableCell>}
         <TableCell>{make}</TableCell>
         <TableCell>{model}</TableCell>
         <TableCell>{year}</TableCell>
@@ -72,7 +73,6 @@ const RowTable = (props) => {
       </TableRow>
       {modal && (
         <ChangeRow
-          changeModal={changeModalHandler}
           carId={id}
           defaultValues={{
             make,
