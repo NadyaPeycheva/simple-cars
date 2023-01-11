@@ -57,7 +57,7 @@ export const CarContextProvider = (props) => {
   };
   const filterCars = (input) => {
     const filteredCars = allCars.filter((car) => {
-      return car.make.toLowerCase().includes(input.toLowerCase());
+      return car.make.toLowerCase().includes(input.toLowerCase())||car.model.toLowerCase().includes(input.toLowerCase());
     });
     setFilteredCars(filteredCars);
   };

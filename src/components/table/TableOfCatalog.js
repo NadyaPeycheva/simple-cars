@@ -169,7 +169,7 @@ const TableOfCatalog = () => {
             ? cars.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : cars
           ).map((car) => (
-            <RowTable key={car.id} car={car} />
+            <RowTable key={car.id} carUser={car.user} car={car} />
           ))}
 
           {isVisible && (

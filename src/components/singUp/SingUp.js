@@ -17,68 +17,38 @@ const initialStateErrors = {
   username: false,
   password: false,
 };
+const initialUserData={
+  firstName:'',lastName:'',username:'',password:'',
+}
 
 const SingUp = () => {
   const history = useHistory();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [userData,setUserData]=useState(initialUserData)
 
   const [haveErrors, setHaveErrors] = useState(initialStateErrors);
 
-  const firstNameHandler = (event) => {
-    setFirstName(event.target.value);
+  const userDataHandler = (event) => {
+    const key=event.target.name;
+    const value=event.target.value;
+    let newProp={}
+    newProp[key]=value;
+    let newError={};
+    setUserData((state)=>{return {...state,...newProp}})
+   
     if (event.target.value.length === 0) {
+      newError[key]=true;
       setHaveErrors((state) => {
-        return { ...state, firstName: true };
+        return { ...state,...newError  };
       });
     } else {
       setHaveErrors((state) => {
-        return { ...state, firstName: false };
+        newError[key]=false;
+        return { ...state, ...newError };
       });
     }
   };
 
-  const lastNameHandler = (event) => {
-    setLastName(event.target.value);
-    if (event.target.value.length === 0) {
-      setHaveErrors((state) => {
-        return { ...state, lastName: true };
-      });
-    } else {
-      setHaveErrors((state) => {
-        return { ...state, lastName: false };
-      });
-    }
-  };
-
-  const usernameHandler = (event) => {
-    setUsername(event.target.value);
-    if (event.target.value.length === 0) {
-      setHaveErrors((state) => {
-        return { ...state, username: true };
-      });
-    } else {
-      setHaveErrors((state) => {
-        return { ...state, username: false };
-      });
-    }
-  };
-
-  const passwordHandler = (event) => {
-    setPassword(event.target.value);
-    if (event.target.value.length === 0) {
-      setHaveErrors((state) => {
-        return { ...state, password: true };
-      });
-    } else {
-      setHaveErrors((state) => {
-        return { ...state, password: false };
-      });
-    }
-  };
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -86,12 +56,7 @@ const SingUp = () => {
     
     fetch("http://161.35.202.170:8080/users/register", {
       method: "POST",
-      body: JSON.stringify({
-        username,
-        password,
-        firstName,
-        lastName,
-      }),
+      body: JSON.stringify(userData),
       headers: {
         "Content-Type": "application/json",
       },
@@ -103,10 +68,7 @@ const SingUp = () => {
         });
         return;
       } else if (response === 200) {
-        setFirstName("");
-        setLastName("");
-        setUsername("");
-        setPassword("");
+   setUserData(initialUserData);
         setHaveErrors(initialStateErrors);
         history.push("/singIn");
       }
@@ -136,7 +98,7 @@ const SingUp = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 id="firstName"
-                value={firstName}
+                value={userData.firstName}
                 type="text"
                 name="firstName"
                 required
@@ -144,18 +106,18 @@ const SingUp = () => {
                 label="First Name"
                 autoFocus
                 error={haveErrors.firstName}
-                onChange={firstNameHandler}
+                onChange={userDataHandler}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
-                value={lastName}
+                value={userData.lastName}
                 id="lastName"
                 required
                 fullWidth
                 label="Last Name"
                 name="lastName"
-                onChange={lastNameHandler}
+                onChange={userDataHandler}
                 error={haveErrors.lastName}
               />
             </Grid>
@@ -163,22 +125,22 @@ const SingUp = () => {
               <TextField
                 required
                 fullWidth
-                name="userName"
+                name="username"
                 label="Username"
-                value={username}
-                onChange={usernameHandler}
+                value={userData.username}
+                onChange={userDataHandler}
                 error={haveErrors.username}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                value={password}
+                value={userData.password}
                 required
                 fullWidth
                 name="password"
                 label="Password"
                 type="password"
-                onChange={passwordHandler}
+                onChange={userDataHandler}
                 error={haveErrors.password}
               />
             </Grid>

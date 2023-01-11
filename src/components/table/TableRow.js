@@ -31,6 +31,8 @@ const RowTable = (props) => {
   } = props.car;
   const { id: carId } = props.car;
 
+  const carUserId=props.carUser.id;
+
   const deleteCarHandler = () => {
     deleteCar(carId, user.id, user.token);
   };
@@ -43,7 +45,7 @@ const RowTable = (props) => {
   return (
     <>
       <TableRow className={classes.tRow}>
-        {user && (
+        {user.id===carUserId && (
           <TableCell>
             <CreateIcon
               onClick={changeModalHandler}

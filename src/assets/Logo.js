@@ -1,4 +1,4 @@
-import image from "../../src/depositphotos_124010534-stock-illustration-car-logo-auto-symbol-and.jpg";
+import image from "../resorces/images/depositphotos_124010534-stock-illustration-car-logo-auto-symbol-and.jpg";
 
 import classes from "./Logo.module.css";
 
