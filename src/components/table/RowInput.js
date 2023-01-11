@@ -10,7 +10,7 @@ const conditions = ["USED", "NEW"];
 const cities = ["Sofia", "Gotce Delchev", "Varna"];
 const gearBox = ["AUTOMATIC", "MANUAL"];
 
-const RowInput = ({ request, defaultValues,carId,changeModel }) => {
+const RowInput = ({ request, defaultValues,carId}) => {
   const { user } = useContext(UserContext);
 
   let makeRef = useRef();
@@ -81,7 +81,6 @@ const RowInput = ({ request, defaultValues,carId,changeModel }) => {
     cityRef.current.value = "";
     mileageRef.current.value = "";
     extrasRef.current.value = "";
-    changeModel();
   };
 
   return (

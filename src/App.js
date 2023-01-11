@@ -3,12 +3,17 @@ import SingIn from "./components/singIn/SingIn";
 import SingUp from "./components/singUp/SingUp";
 import Catalog from "./pages/Catalog";
 
+import { useContext } from "react";
+import UserContext from "./store/context/user-contex";
+
+
 function App() {
+  const {user}=useContext(UserContext);
   return (
     <main>
      
       <Route path="/" exact>
-        <Redirect to='/catalog'/>
+        {user?<Redirect to='/catalog'/>:<Redirect to='/singIn'/>}
       </Route>
       <Route path="/catalog">
         <Catalog/>
@@ -16,9 +21,9 @@ function App() {
    <Route path='/singUp'>
     <SingUp/>
    </Route>
-   <Route path='/singIn'>
+   {!user&& <Route path='/singIn'>
     <SingIn/>
-   </Route>
+   </Route>}
    </main>
   );
 }

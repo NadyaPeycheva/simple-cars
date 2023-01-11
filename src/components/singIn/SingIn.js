@@ -1,4 +1,3 @@
-
 import Background from "../../assets/Background";
 
 import { Link, useHistory } from "react-router-dom";
@@ -20,43 +19,36 @@ const initialStateErrors = {
   username: false,
   password: false,
 };
+const initialUserData = { username: "", password: "" };
 
 const SingIn = () => {
   const history = useHistory();
-
   const { logIn } = useContext(UserContext);
 
-  const [disabledButton,setDisabledButton]=useState(false)
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
+  const [disabledButton, setDisabledButton] = useState(false);
+  const [userData, setUserData] = useState(initialUserData);
   const [haveErrors, setHaveErrors] = useState(initialStateErrors);
 
-  const usernameHandler = (event) => {
-    setUsername(event.target.value);
-    if (event.target.value.length === 0) {
-      setHaveErrors((state) => {
-        return { ...state, username: true };
-      });
-      setDisabledButton(true);
-    } else {
-      setHaveErrors((state) => {
-        return { ...state, username: false };
-      });
-      setDisabledButton(false);
-    }
-  };
+  const userDataHandler = (event) => {
+    const key = event.target.name;
+    const value = event.target.value;
+    let newProp = {};
+    newProp[key] = value;
+    let newError = {};
 
-  const passwordHandler = (event) => {
-    setPassword(event.target.value);
+    setUserData((state) => {
+      return { ...state, ...newProp };
+    });
     if (event.target.value.length === 0) {
+      newError[key] = true;
       setHaveErrors((state) => {
-        return { ...state, password: true };
+        return { ...state, ...newError };
       });
       setDisabledButton(true);
     } else {
       setHaveErrors((state) => {
-        return { ...state, password: false };
+        newError[key] = false;
+        return { ...state, ...newError };
       });
       setDisabledButton(false);
     }
@@ -64,26 +56,29 @@ const SingIn = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    
     fetch("http://161.35.202.170:8080/users/login", {
       method: "POST",
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify(userData),
       headers: { "Content-Type": "application/json" },
     }).then((res) => {
       const response = res.status;
-      if (response === 500) {
-        setHaveErrors((state) => {
-          return { ...state, username: true };
-        });
-        return;
-      } else if (response === 200) {
-        res.json().then((data) => {
-          
-          logIn(data.jwtToken,data.user)
-        });
-        setUsername("");
-        setPassword("");
-        setHaveErrors(initialStateErrors);
-        history.push("/catalog");
+      try {
+        if (response === 500) {
+          setHaveErrors((state) => {
+            return { ...state, username: true };
+          });
+          throw new Error(res.message);
+        } else if (response === 200) {
+          res.json().then((data) => {
+            logIn(data.jwtToken, data.user);
+          });
+          setUserData(initialUserData);
+          setHaveErrors(initialStateErrors);
+          history.push("/catalog");
+        }
+      } catch (error) {
+        console.log(error);
       }
     });
   };
@@ -112,22 +107,22 @@ const SingIn = () => {
               <TextField
                 required
                 fullWidth
-                name="userName"
+                name="username"
                 label="Username"
-                value={username}
-                onChange={usernameHandler}
+                value={userData.username}
+                onChange={userDataHandler}
                 error={haveErrors.username}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                value={password}
+                value={userData.password}
                 required
                 fullWidth
                 name="password"
                 label="Password"
                 type="password"
-                onChange={passwordHandler}
+                onChange={userDataHandler}
                 error={haveErrors.password}
               />
             </Grid>
@@ -154,7 +149,7 @@ const SingIn = () => {
         </Box>
       </Box>
       <footer className={classes.footer}>
-        <Logo/>
+        <Logo />
         <p>Copyright &copy; Simple Cars2012</p>
       </footer>
     </Background>
