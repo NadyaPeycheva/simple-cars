@@ -13,7 +13,8 @@ function App() {
     <main>
      
       <Route path="/" exact>
-        {user?<Redirect to='/catalog'/>:<Redirect to='/singIn'/>}
+        {user&&<Redirect to='/catalog'/>}
+        {!user&&<Redirect to='/singIn'/>}
       </Route>
       <Route path="/catalog">
         <Catalog/>

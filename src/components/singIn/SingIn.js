@@ -14,6 +14,7 @@ import {
 import { useState, useContext } from "react";
 import UserContext from "../../store/context/user-contex";
 import Logo from "../../assets/Logo";
+import  postRequest  from "../../api/postRequest";
 
 const initialStateErrors = {
   username: false,
@@ -56,31 +57,15 @@ const SingIn = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    
-    fetch("http://161.35.202.170:8080/users/login", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: { "Content-Type": "application/json" },
-    }).then((res) => {
-      const response = res.status;
-      try {
-        if (response === 500) {
-          setHaveErrors((state) => {
-            return { ...state, username: true };
-          });
-          throw new Error(res.message);
-        } else if (response === 200) {
-          res.json().then((data) => {
-            logIn(data.jwtToken, data.user);
-          });
-          setUserData(initialUserData);
-          setHaveErrors(initialStateErrors);
-          history.push("/catalog");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+
+    postRequest('users/login',userData).then((response) => {
+      const token=response.jwtToken;
+      const userData = response.user;
+      logIn(token,userData);
+      history.replace('/catalog')
     });
+    
+    
   };
 
   return (
