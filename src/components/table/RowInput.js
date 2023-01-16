@@ -41,7 +41,7 @@ const RowInput = ({ request, defaultValues,carId}) => {
     const extras = extrasRef.current.value;
 
     const car = {
-      "id": carId||user.id,
+      "id": user.id||carId,
       "make": make,
       "model": model,
       "year": year,
@@ -58,10 +58,11 @@ const RowInput = ({ request, defaultValues,carId}) => {
         "username": user.username,
         "password": user.password,
         "firstName": user.firstName,
-        "lastName": user.lastName,
+        "lastName": user.lastName
       },
       "extras": extras
     };
+    console.log('car',car);
     const userData = { token: user.token, id: user.id };
 
     request(car, userData);

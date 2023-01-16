@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import postRequest from "../../api/postRequest";
 
 const initialStateErrors = {
   firstName: false,
@@ -52,27 +53,19 @@ const SingUp = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-
-    
-    fetch("http://161.35.202.170:8080/users/register", {
-      method: "POST",
-      body: JSON.stringify(userData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((res) => {
-      const response = res.status;
-      if (response === 500) {
-        setHaveErrors((state) => {
-          return { ...state, username: true };
-        });
-        return;
-      } else if (response === 200) {
-   setUserData(initialUserData);
+    postRequest('users/register',userData).then((result) => {
+      if(result===200){
+        setUserData(initialUserData);
         setHaveErrors(initialStateErrors);
         history.push("/singIn");
+      }else{
+        setHaveErrors((state) => {
+                  return { ...state, username: true };
+                });
       }
-    });
+
+    })
+
   };
 
   return (
